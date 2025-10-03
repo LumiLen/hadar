@@ -4,276 +4,214 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>בתי עסק בהדר · תומר קמרלינג ולני פילר</title>
-  <meta name="description" content="דף נחיתה לבן המציג גריד של 12 תמונות של בתי עסק בהדר חיפה, עם תצוגה מוגדלת ופורם תגובה לכל תמונה, ועוד עמוד מידע על הפרוייקט." />
   <style>
-    :root { --maxw: 1100px; --gap: 18px; --radius: 16px; }
-    * { box-sizing: border-box; }
-    html, body { margin:0; padding:0; background:#fff; color:#111; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", "Apple Color Emoji", "Segoe UI Emoji"; }
-    a { color: #0d6efd; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    header { position: sticky; top: 0; background: #fff; border-bottom: 1px solid #eee; z-index: 10; }
-    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 14px 16px; }
-    .title { display:flex; flex-wrap:wrap; align-items:center; gap:12px; }
-    .title h1 { font-size: clamp(20px, 3vw, 32px); margin: 0; font-weight: 700; }
-    .subtitle { font-size: 14px; color:#666; }
-    nav { margin-top: 10px; display:flex; gap: 8px; }
-    .tab { appearance:none; border:1px solid #e5e5e5; background:#fafafa; padding:8px 12px; border-radius: 999px; cursor:pointer; font-weight:600; }
-    .tab[aria-current="page"] { background:#111; color:#fff; border-color:#111; }
+    body { margin:0; font-family:Arial, sans-serif; background:#fff; color:#111; }
+    header { padding:20px; border-bottom:1px solid #eee; }
+    h1 { margin:0; font-size:24px; }
+    nav { margin-top:10px; }
+    nav button { margin-inline-end:10px; }
+    .grid { display:grid; grid-template-columns: repeat(1,1fr); gap:16px; padding:20px; }
+    @media (min-width:700px){ .grid{ grid-template-columns: repeat(2,1fr);} }
+    @media (min-width:1000px){ .grid{ grid-template-columns: repeat(3,1fr);} }
+    .card { border:1px solid #eee; border-radius:8px; overflow:hidden; background:#fff; }
+    .thumb { display:block; }
+    .thumb img { width:100%; height:auto; display:block; cursor:pointer; }
+    .card-body { padding:10px; display:flex; justify-content:flex-start; }
+    .card-body button { padding:8px 12px; cursor:pointer; border-radius:6px; border:1px solid #111; background:#111; color:#fff; }
 
-    main { max-width: var(--maxw); margin: 24px auto; padding: 0 16px 48px; }
-
-    /* Gallery grid */
-    .grid { display:grid; grid-template-columns: repeat(1, 1fr); gap: var(--gap); }
-    @media (min-width:600px){ .grid{ grid-template-columns: repeat(2, 1fr);} }
-    @media (min-width:900px){ .grid{ grid-template-columns: repeat(3, 1fr);} }
-
-    .card { border:1px solid #eee; border-radius: var(--radius); overflow: hidden; background:#fff; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
-    .thumb { position:relative; overflow:hidden; aspect-ratio: 4/3; background:#f6f6f6; display:block; }
-    .thumb img { width:100%; height:100%; object-fit: cover; display:block; transition: transform .2s ease; }
-    .thumb:hover img { transform: scale(1.02); }
-
-    .card-body { padding: 12px; }
-    .card-body h3 { margin: 0 0 8px; font-size: 16px; }
-    .meta { font-size: 13px; color:#666; margin-bottom: 10px; }
-
-    /* Form */
-    form.comment { display:grid; gap: 8px; }
-    .row { display:grid; grid-template-columns: 1fr; gap:8px; }
-    @media (min-width:720px){ .row.two { grid-template-columns: 1fr 1fr; } }
-    label { font-size: 13px; color:#222; font-weight:600; }
-    input[type="text"], input[type="email"], input[type="tel"], textarea { width:100%; padding:10px; border:1px solid #e5e5e5; border-radius: 10px; background:#fff; font: inherit; }
-    textarea { min-height: 90px; resize: vertical; }
-    input[type="file"] { border:1px dashed #ddd; padding:10px; border-radius: 10px; background:#fcfcfc; }
-    .actions { display:flex; gap:10px; align-items:center; justify-content:flex-start; }
-    button { padding: 10px 14px; border-radius: 10px; border:1px solid #111; background:#111; color:#fff; cursor:pointer; font-weight:700; }
-    button.secondary { background:#fff; color:#111; }
-    .hint { font-size: 12px; color:#777; }
+    .lightbox, .formbox { position:fixed; inset:0; background:rgba(0,0,0,0.85); display:none; align-items:center; justify-content:center; z-index:100; }
+    .lightbox.open, .formbox.open { display:flex; }
 
     /* Lightbox */
-    .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.86); display:none; align-items: center; justify-content: center; z-index: 50; }
-    .lightbox.open { display:flex; }
-    .lb-inner { position: relative; width: min(96vw, var(--maxw)); height: min(86vh, 900px); display:flex; align-items:center; justify-content:center; }
-    .lb-img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); background:#000; }
-    .lb-close { position: absolute; top: 8px; left: 8px; background: rgba(255,255,255,0.95); border:none; border-radius: 999px; padding:8px 12px; cursor:pointer; font-weight:800; }
+    .lb-stage { position:relative; width:min(96vw,1200px); height:min(88vh,900px); display:flex; align-items:center; justify-content:center; }
+    .lightbox img { max-width:100%; max-height:100%; border-radius:8px; background:#000; }
     .lb-nav { position:absolute; inset:0; display:flex; align-items:center; justify-content:space-between; pointer-events:none; }
-    .lb-arrow { pointer-events:auto; border:none; background: rgba(255,255,255,0.92); width:42px; height:42px; border-radius: 999px; font-size:22px; display:grid; place-items:center; cursor:pointer; }
+    .lb-arrow { pointer-events:auto; background:#fff; border:none; border-radius:50%; width:42px; height:42px; cursor:pointer; font-size:20px; display:grid; place-items:center; }
+    .lb-close { position:absolute; top:8px; left:8px; background:#fff; border:none; border-radius:999px; padding:6px 10px; cursor:pointer; font-weight:800; }
+    .lb-caption { position:absolute; bottom:8px; right:8px; left:8px; background:rgba(255,255,255,0.95); padding:8px 12px; border-radius:8px; font-weight:600; color:#111; }
 
-    /* "More info" section */
-    .section { display:none; }
-    .section.active { display:block; }
-    .panel { border:1px solid #eee; border-radius: var(--radius); padding: 16px; background:#fff; }
-    .panel h2 { margin-top:0; font-size: 20px; }
+    /* Form Popup */
+    .form-container { background:#fff; padding:20px; border-radius:12px; max-width:560px; width:94%; box-shadow:0 10px 30px rgba(0,0,0,.25); }
+    .form-header { display:flex; gap:12px; align-items:center; margin-bottom:12px; }
+    .form-header img { width:72px; height:54px; object-fit:cover; border-radius:6px; border:1px solid #eee; }
+    .form-header .title { font-weight:700; }
+    form { display:grid; gap:10px; }
+    input, textarea { width:100%; padding:8px; border:1px solid #ccc; border-radius:8px; }
+    input[type="file"]{ border-style:dashed; }
+    .form-actions { display:flex; gap:8px; align-items:center; justify-content:flex-start; }
+    button.submit { background:#111; color:#fff; border:1px solid #111; padding:10px 14px; border-radius:8px; cursor:pointer; }
+    button.ghost { background:#fff; color:#111; border:1px solid #ccc; padding:10px 14px; border-radius:8px; cursor:pointer; }
+
+    /* About */
+    #about { display:none; padding:20px; }
+    #about textarea { width:100%; min-height:120px; }
   </style>
 </head>
 <body>
   <header>
-    <div class="wrap">
-      <div class="title" role="banner">
-        <h1>בתי עסק בהדר</h1>
-        <div class="subtitle">תומר קמרלינג · לני פילר</div>
-      </div>
-      <nav aria-label="ניווט עליון">
-        <button class="tab" id="tab-gallery" aria-current="page" onclick="showSection('gallery')">גלריה</button>
-        <button class="tab" id="tab-about" onclick="showSection('about')">עוד מידע על הפרוייקט</button>
-      </nav>
-    </div>
+    <h1>בתי עסק בהדר</h1>
+    <div>תומר קמרלינג · לני פילר</div>
+    <nav aria-label="ניווט">
+      <button onclick="showSection('gallery')">גלריה</button>
+      <button onclick="showSection('about')">עוד מידע על הפרוייקט</button>
+    </nav>
   </header>
 
   <main>
-    <!-- Gallery Section -->
-    <section id="gallery" class="section active" aria-labelledby="tab-gallery">
+    <section id="gallery" aria-label="גלריית תמונות">
       <div class="grid" id="grid"></div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="section" aria-labelledby="tab-about">
-      <div class="panel" style="margin-bottom:16px;">
-        <h2>עוד מידע על הפרוייקט</h2>
-        <p style="margin:0; color:#444;">(כתבו כאן טקסט חופשי על הפרוייקט, קונטקסט היסטורי, קרדיטים, וכדומה.)</p>
-        <textarea id="aboutContent" placeholder="מקום להשאיר טקסט – לא נשמר ללא חיבור לבקאנד" style="margin-top:10px; width:100%; min-height:140px;"></textarea>
-      </div>
-      <div class="panel">
-        <h2>צרו קשר</h2>
-        <form id="aboutForm" class="comment" onsubmit="handleAboutSubmit(event)">
-          <div class="row two">
-            <div>
-              <label for="aboutName">שם מלא</label>
-              <input id="aboutName" name="name" type="text" required />
-            </div>
-            <div>
-              <label for="aboutEmail">אימייל</label>
-              <input id="aboutEmail" name="email" type="email" required />
-            </div>
-          </div>
-          <div class="row two">
-            <div>
-              <label for="aboutPhone">טלפון נייד</label>
-              <input id="aboutPhone" name="phone" type="tel" />
-            </div>
-            <div>
-              <label for="aboutFile">צרפו קובץ (תמונה או PDF)</label>
-              <input id="aboutFile" name="file" type="file" accept="image/*,.pdf" />
-            </div>
-          </div>
-          <div>
-            <label for="aboutMsg">הודעה</label>
-            <textarea id="aboutMsg" name="message" placeholder="כתבו כאן את הודעתכם"></textarea>
-          </div>
-          <div class="actions">
-            <button type="submit">שליחה</button>
-            <span class="hint">* כרגע ללא שרת – יש לעדכן יעד שליחה בקוד</span>
-          </div>
-        </form>
-      </div>
+    <section id="about" aria-label="עוד מידע על הפרוייקט">
+      <h2>עוד מידע על הפרוייקט</h2>
+      <textarea placeholder="כתבו כאן מידע על הפרוייקט..."></textarea>
+      <h3>שליחת הודעה</h3>
+      <form onsubmit="handleAboutSubmit(event)">
+        <input type="text" name="name" placeholder="שם מלא" required />
+        <input type="email" name="email" placeholder="אימייל" required />
+        <input type="tel" name="phone" placeholder="טלפון נייד" />
+        <textarea name="message" placeholder="הודעה"></textarea>
+        <input type="file" name="file" accept="image/*,.pdf" />
+        <button class="submit" type="submit">שליחה</button>
+      </form>
     </section>
   </main>
 
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="תצוגת תמונה מוגדלת">
-    <div class="lb-inner">
-      <button title="סגירה (Esc)" class="lb-close" id="lbClose" onclick="closeLightbox()">✕</button>
-      <img id="lbImg" class="lb-img" alt="תמונה מוגדלת" />
+    <div class="lb-stage">
+      <button class="lb-close" title="סגירה (Esc)" onclick="closeLightbox()">✕</button>
+      <img id="lbImg" alt="תמונה" />
+      <div class="lb-caption" id="lbCaption"></div>
       <div class="lb-nav">
-        <button class="lb-arrow" id="prevBtn" aria-label="תמונה קודמת" onclick="navLightbox(-1)">◀</button>
-        <button class="lb-arrow" id="nextBtn" aria-label="תמונה הבאה" onclick="navLightbox(1)">▶</button>
+        <button class="lb-arrow" aria-label="תמונה קודמת" onclick="navLightbox(-1)">◀</button>
+        <button class="lb-arrow" aria-label="תמונה הבאה" onclick="navLightbox(1)">▶</button>
       </div>
     </div>
   </div>
 
+  <!-- Form Popup -->
+  <div class="formbox" id="formbox" aria-hidden="true" role="dialog" aria-label="טופס הוספת מידע על תמונה">
+    <div class="form-container">
+      <div class="form-header">
+        <img id="formThumb" alt="תצוגה מקדימה" />
+        <div>
+          <div class="title" id="formTitle">—</div>
+          <div class="hint" id="formHint" style="font-size:12px;color:#666;">המידע יישלח עבור התמונה שנבחרה</div>
+        </div>
+      </div>
+      <form id="imageForm" onsubmit="handleCommentSubmit(event)">
+        <input type="hidden" id="imageIndex" name="imageIndex" />
+        <input type="text" name="name" placeholder="שם מלא" required />
+        <input type="email" name="email" placeholder="אימייל" required />
+        <input type="tel" name="phone" placeholder="טלפון נייד" />
+        <textarea name="note" placeholder="כתבו כאן את ההערה"></textarea>
+        <input type="file" name="file" accept="image/*,.pdf" />
+        <div class="form-actions">
+          <button class="submit" type="submit">שליחה</button>
+          <button class="ghost" type="button" onclick="closeForm()">סגירה</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
-    // === CONFIG: put your image filenames inside /assets ===
-    // You can change titles/captions per image as you like.
-    const IMAGES = [
-      { src: 'assets/photo01.jpg', title: 'בית עסק #1' },
-      { src: 'assets/photo02.jpg', title: 'בית עסק #2' },
-      { src: 'assets/photo03.jpg', title: 'בית עסק #3' },
-      { src: 'assets/photo04.jpg', title: 'בית עסק #4' },
-      { src: 'assets/photo05.jpg', title: 'בית עסק #5' },
-      { src: 'assets/photo06.jpg', title: 'בית עסק #6' },
-      { src: 'assets/photo07.jpg', title: 'בית עסק #7' },
-      { src: 'assets/photo08.jpg', title: 'בית עסק #8' },
-      { src: 'assets/photo09.jpg', title: 'בית עסק #9' },
-      { src: 'assets/photo10.jpg', title: 'בית עסק #10' },
-      { src: 'assets/photo11.jpg', title: 'בית עסק #11' },
-      { src: 'assets/photo12.jpg', title: 'בית עסק #12' },
-    ];
+    // === Images config ===
+    const IMAGES = Array.from({length:12}, (_,i)=>({ src:`assets/photo${String(i+1).padStart(2,'0')}.jpg`, title:`בית עסק #${i+1}`}));
 
-    // Build the 3×4 grid
+    // Build grid
     const grid = document.getElementById('grid');
-    grid.innerHTML = IMAGES.map((img, i) => cardTemplate(img, i)).join('');
-
-    function cardTemplate(img, i){
-      return `
-        <article class="card" data-index="${i}">
-          <a href="#" class="thumb" onclick="openLightbox(${i}); return false;" aria-label="הגדלת תמונה ${i+1}">
-            <img src="${img.src}" alt="${escapeHtml(img.title)}" loading="lazy" />
-          </a>
-          <div class="card-body">
-            <h3>${escapeHtml(img.title)}</h3>
-            <div class="meta">לחצו על התמונה כדי להגדיל ולדפדף בין התמונות (חצים ימינה/שמאלה)</div>
-            <form class="comment" onsubmit="handleCommentSubmit(event, ${i})">
-              <input type="hidden" name="imageIndex" value="${i}" />
-              <div class="row two">
-                <div>
-                  <label for="name-${i}">שם מלא</label>
-                  <input id="name-${i}" name="name" type="text" required />
-                </div>
-                <div>
-                  <label for="email-${i}">אימייל</label>
-                  <input id="email-${i}" name="email" type="email" required />
-                </div>
-              </div>
-              <div class="row two">
-                <div>
-                  <label for="phone-${i}">טלפון נייד</label>
-                  <input id="phone-${i}" name="phone" type="tel" />
-                </div>
-                <div>
-                  <label for="file-${i}">צרפו קובץ (תמונה או PDF)</label>
-                  <input id="file-${i}" name="file" type="file" accept="image/*,.pdf" />
-                </div>
-              </div>
-              <div>
-                <label for="note-${i}">הערה/סיפור על העסק</label>
-                <textarea id="note-${i}" name="note" placeholder="יש לכם סיפור, פרטים היסטוריים, שמות בעלי העסק, או תמונות נוספות? ספרו לנו כאן."></textarea>
-              </div>
-              <div class="actions">
-                <button type="submit">שליחת הערה</button>
-                <button type="reset" class="secondary">ניקוי</button>
-                <span class="hint">* כרגע הנתונים נשמרים מקומית בלבד (דמו)</span>
-              </div>
-            </form>
-          </div>
-        </article>
-      `;
-    }
+    grid.innerHTML = IMAGES.map((img,i)=>`
+      <div class="card">
+        <a class="thumb" onclick="openLightbox(${i})"><img src="${img.src}" alt="${escapeHtml(img.title)}" /></a>
+        <div class="card-body">
+          <button onclick="openForm(${i})">לחץ כאן כדי להוסיף מידע</button>
+        </div>
+      </div>
+    `).join('');
 
     // ==== Lightbox logic ====
     const lightbox = document.getElementById('lightbox');
     const lbImg = document.getElementById('lbImg');
+    const lbCaption = document.getElementById('lbCaption');
     let current = 0;
 
-    function openLightbox(index){
-      current = index;
-      lbImg.src = IMAGES[current].src;
+    function openLightbox(i){
+      current = i;
+      updateLightbox();
       lightbox.classList.add('open');
       lightbox.setAttribute('aria-hidden','false');
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow='hidden';
     }
     function closeLightbox(){
       lightbox.classList.remove('open');
       lightbox.setAttribute('aria-hidden','true');
-      document.body.style.overflow = '';
+      document.body.style.overflow='';
     }
     function navLightbox(delta){
       current = (current + delta + IMAGES.length) % IMAGES.length;
+      updateLightbox();
+    }
+    function updateLightbox(){
       lbImg.src = IMAGES[current].src;
+      lbCaption.textContent = IMAGES[current].title + ` (תמונה ${current+1} מתוך ${IMAGES.length})`;
     }
     lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLightbox(); });
     document.addEventListener('keydown', (e)=>{
-      if(!lightbox.classList.contains('open')) return;
-      if(e.key === 'Escape') closeLightbox();
-      if(e.key === 'ArrowRight') navLightbox(1);
-      if(e.key === 'ArrowLeft') navLightbox(-1);
+      if(lightbox.classList.contains('open')){
+        if(e.key==='Escape') closeLightbox();
+        if(e.key==='ArrowRight') navLightbox(1);
+        if(e.key==='ArrowLeft') navLightbox(-1);
+      }
     });
 
-    // ==== Simple demo handlers (replace with your backend) ====
-    function handleCommentSubmit(ev, index){
-      ev.preventDefault();
-      const form = ev.target;
-      const data = new FormData(form);
-      // Example payload
-      const payload = Object.fromEntries(data.entries());
-      console.log('COMMENT SUBMIT for image', index, payload);
-      alert('הטופס נקלט (דמו). חברו נקודת שליחה ב- fetch כדי לקבל למייל/שרת.');
-      form.reset();
+    // ==== Form popup logic ====
+    const formbox = document.getElementById('formbox');
+    const formThumb = document.getElementById('formThumb');
+    const formTitle = document.getElementById('formTitle');
+    const imageIndexInput = document.getElementById('imageIndex');
+
+    function openForm(i){
+      imageIndexInput.value = i;
+      formThumb.src = IMAGES[i].src;
+      formTitle.textContent = IMAGES[i].title;
+      formbox.classList.add('open');
+      formbox.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+    }
+    function closeForm(){
+      formbox.classList.remove('open');
+      formbox.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+    }
+    formbox.addEventListener('click', (e)=>{ if(e.target === formbox) closeForm(); });
+
+    function handleCommentSubmit(e){
+      e.preventDefault();
+      const data = new FormData(e.target);
+      console.log('Image comment submit', Object.fromEntries(data.entries()));
+      alert('הטופס נקלט (דמו). חברו נקודת שליחה ב-fetch כדי לקבל לשרת/מייל.');
+      e.target.reset();
+      closeForm();
     }
 
-    function handleAboutSubmit(ev){
-      ev.preventDefault();
-      const form = ev.target; const data = new FormData(form);
-      console.log('ABOUT SUBMIT', Object.fromEntries(data.entries()));
-      alert('הודעתכם נקלטה (דמו). חברו שרת/אימייל במידת הצורך.');
-      form.reset();
+    function handleAboutSubmit(e){
+      e.preventDefault();
+      const data = new FormData(e.target);
+      console.log('About form', Object.fromEntries(data.entries()));
+      alert('הטופס נקלט (דמו).');
+      e.target.reset();
     }
 
-    // Tab switching (single-file, two-sections)
-    function showSection(which){
-      const sections = ['gallery','about'];
-      sections.forEach(id => {
-        document.getElementById(id).classList.toggle('active', id === which);
-      });
-      document.getElementById('tab-gallery').setAttribute('aria-current', which==='gallery'?'page':'false');
-      document.getElementById('tab-about').setAttribute('aria-current', which==='about'?'page':'false');
-      // Scroll to top on tab change
+    function showSection(id){
+      document.getElementById('gallery').style.display = id==='gallery' ? 'block' : 'none';
+      document.getElementById('about').style.display = id==='about' ? 'block' : 'none';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Tiny HTML escaper for titles
     function escapeHtml(str){
       return String(str).replace(/[&<>\"]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]));
     }
   </script>
 </body>
 </html>
-
