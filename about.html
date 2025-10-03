@@ -1,1 +1,121 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>עוד מידע על הפרוייקט · בתי עסק בהדר</title>
+  <meta name="description" content="עמוד מידע ויצירת קשר לפרוייקט בתי עסק בהדר – תומר קמרלינג ולני פילר." />
+  <style>
+    :root { --gap:18px; --radius:12px; --maxw:1200px; }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:#fff;color:#111;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    a{color:#0d6efd;text-decoration:none}a:hover{text-decoration:underline}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;z-index:10}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:14px 16px}
+    .brand{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .brand h1{margin:0;font-size:clamp(22px,3.2vw,34px)}
+    .subtitle{color:#666;font-size:14px}
+    nav{margin-top:10px;display:flex;gap:8px}
+    .tab{appearance:none;border:1px solid #e5e5e5;background:#fafafa;padding:8px 12px;border-radius:999px;cursor:pointer;font-weight:600}
+    .tab[aria-current="page"]{background:#111;color:#fff;border-color:#111}
+
+    main{max-width:var(--maxw);margin:24px auto;padding:0 16px 48px}
+    .grid{display:grid;gap:var(--gap);grid-template-columns:1fr}
+    @media(min-width:900px){.grid{grid-template-columns:1fr}}
+
+    .panel{border:1px solid #eee;border-radius:var(--radius);background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04);padding:16px}
+    .panel h2{margin-top:0}
+    .hint{font-size:12px;color:#777}
+
+    textarea,input,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;font:inherit}
+    textarea{min-height:160px;resize:vertical}
+    input[type=file]{border-style:dashed;background:#fcfcfc}
+
+    .actions{display:flex;gap:8px;align-items:center}
+    .btn{padding:10px 14px;border-radius:10px;border:1px solid #111;background:#111;color:#fff;cursor:pointer;font-weight:700}
+    .btn.ghost{background:#fff;color:#111;border:1px solid #bbb}
+
+    footer{max-width:var(--maxw);margin:24px auto 32px; padding:0 16px; color:#777; font-size:14px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <h1>עוד מידע על הפרוייקט</h1>
+        <div class="subtitle">תומר קמרלינג · לני פילר</div>
+      </div>
+      <nav aria-label="ניווט עליון">
+        <a class="tab" href="index.html">גלריה</a>
+        <button class="tab" aria-current="page">עוד מידע על הפרוייקט</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid">
+      <section class="panel">
+        <h2>טקסט על הפרוייקט</h2>
+        <p class="hint">השילוט של בתי העסק בשכונת הדר תפס לי את תשומת הלב והעין ברגע שעברתי לגור בחיפה. זה היה בקיץ 2025, וזמן קצר לאחר מכן עברתי ניתוח שממנו נשלחתי הביתה עם המלצה להתהלך. אז התהלכתי בעיר ובשכונה החדשות שלי, וכל הזמן מצאתי את עצמי מביט בשלטים הישנים והמיושנים, הקצת מצחיקים והקצת מרגשים, המעט דהויים והלגמרי מתפוררים. חלקם תלויים מעל עסקים שעדיין פועלים, אחרים הם אנדרטאות לחנויות שכבר מזמן אינן, וכולם מוסרים ד"ש מעולם שפעם היה. 
+
+אני לא צלם מקצועי. אף פעם לא הצגתי צילומים, לפחות לא מחוץ למסגרת המאוד לא מחייבת של הרשתות החברתיות. בהתאמה, התיעוד הזה לא הועלה לאוויר מתוך מחשבה שיש בו ערך אומנותי - אלא מתוך ידיעה שיש בו ערך נוסטלגי, אולי אספני. כי פעם היו בכל מקום עסקים קטנים, אפילו קטנטנים, ולמזלנו  עוד אפשר לאסוף זיכרונות מהם. על זה הרשתות והקניונים עוד לא השתלטו.
+
+אז הנה, אוסף של זיכרונות. שהם אפילו לא ממש שלי, כי נולדתי בכלל בתל אביב וגרתי בה כמעט כל חיי. או שאולי הזיכרונות האלה הם בכל זאת גם קצת שלי, כי משהו בחיפה של 2025 מזכיר לי לפעמים את תל אביב שגדלתי בה, תל אביב של שנות ה-70 וה-80. 
+
+ואולי הזיכרונות הכי יפים הם לא לדברים שאשכרה חווית, אלא לדברים שתופסים לך את תשומת הלב והעין רק כשהם כבר אינם.</p>
+        <textarea id="aboutText" placeholder="לדוגמה: הפרוייקט "בתי עסק בהדר" מתעד שלטי חנויות, חזיתות וסימנים היסטוריים בשכונת הדר בחיפה... "></textarea>
+      </section>
+
+      <section class="panel">
+        <h2>יצירת קשר</h2>
+        <form id="contactForm" onsubmit="handleContactSubmit(event)">
+          <div style="display:grid;gap:10px;grid-template-columns:1fr;">
+            <div>
+              <label for="name" style="display:block;font-weight:600;margin-bottom:6px">שם מלא</label>
+              <input id="name" name="name" type="text" required />
+            </div>
+            <div style="display:grid;gap:10px;grid-template-columns:1fr 1fr">
+              <div>
+                <label for="email" style="display:block;font-weight:600;margin-bottom:6px">אימייל</label>
+                <input id="email" name="email" type="email" required />
+              </div>
+              <div>
+                <label for="phone" style="display:block;font-weight:600;margin-bottom:6px">טלפון נייד</label>
+                <input id="phone" name="phone" type="tel" />
+              </div>
+            </div>
+            <div>
+              <label for="message" style="display:block;font-weight:600;margin-bottom:6px">הודעה</label>
+              <textarea id="message" name="message" placeholder="כתבו לנו כאן"></textarea>
+            </div>
+            <div>
+              <label for="file" style="display:block;font-weight:600;margin-bottom:6px">צרפו קובץ (תמונה או PDF)</label>
+              <input id="file" name="file" type="file" accept="image/*,.pdf" />
+              <div class="hint">קבצים ישלחו רק אם תחברו יעד שליחה בצד שרת.</div>
+            </div>
+            <div class="actions">
+              <button class="btn" type="submit">שליחה</button>
+              <span class="hint">* כרגע דמו – יש לחבר יעד שליחה ב‑fetch / שירות טפסים.</span>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    © בתי עסק בהדר – תומר קמרלינג · לני פילר
+  </footer>
+
+  <script>
+    function handleContactSubmit(ev){
+      ev.preventDefault();
+      const data = new FormData(ev.target);
+      console.log('ABOUT CONTACT', Object.fromEntries(data.entries()));
+      alert('הטופס נקלט (דמו). לחיבור אמיתי נוכל להשתמש ב‑Formspree/Netlify Forms/Apps Script.');
+      ev.target.reset();
+    }
+  </script>
+</body>
+</html>
 
